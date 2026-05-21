@@ -20,6 +20,6 @@ app.use(express.json());
 
 //Levanta el servidor
 app.listen( port, () => {
-    console.log(`Servidor corriendo en puerto ${port}`)`;`
+    console.log(`Servidor corriendo en puerto ${port}`);
 });
 
