@@ -1,6 +1,9 @@
 
 import express from "express";
 
+//Importamos el router, que exportamos en alumnosRouter.
+import alumnosRouter from "./routes/alumnosRoutes.js";
+
 // El famoso servidor!!!!!!
 const app = express();
 
@@ -17,6 +20,9 @@ req -> request, la petición que llega al servidor.
 body -> cuerpo de la petición (datos que mandó el cliente) y todo,
 gracias a este middleware de express.*/
 app.use(express.json()); 
+
+//El middleware para manejar la ruta de alumnos
+app.use("/alumnos" , alumnosRouter);
 
 //Levanta el servidor
 app.listen( port, () => {

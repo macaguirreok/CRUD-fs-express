@@ -17,5 +17,8 @@
   "bugs": {
     "url": "https://github.com/macaguirreok/CRUD-fs-express/issues"
   },
-  "homepage": "https://github.com/macaguirreok/CRUD-fs-express#readme"
+  "homepage": "https://github.com/macaguirreok/CRUD-fs-express#readme",
+  "dependencies": {
+    "express": "^5.2.1"
+  }
 }
