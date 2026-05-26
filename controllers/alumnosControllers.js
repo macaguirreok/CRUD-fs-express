@@ -66,3 +66,34 @@ export const postAlumnos = (req,res) => {
         alumno: req.body
     });
 }
+
+export const deleteAlumno = (req,res) => {
+    //leemos el archivo
+    const data = fs.readFileSync(filepath , "utf-8");
+    //lo convertimos a js
+    const alumnos = JSON.parse(data);
+    //obtenemos el id con el que vamos a buscar al alumno
+    const idEliminar = parseInt(req.params.id);
+    //Creamos el array con el alumno eliminado
+    const alumnosNuevo = alumnos.filter( alumno => {
+    return alumno.id !== idEliminar
+    });
+    //Verificamos si realmente se eliminó
+    if(alumnos.length === alumnosNuevo.length){
+        return res.status(404).json({
+            mensaje: "Alumno no encontrado"
+        });
+    }
+
+    //Guardamos el nuevo array en el json
+    fs.writeFileSync( 
+        filepath,
+        JSON.stringify(alumnosNuevo , null , 2)
+    );
+
+    //Respondemos al cliente:
+    res.json({
+        mensaje:"Alumno eliminado correctamente"
+    });
+
+}
