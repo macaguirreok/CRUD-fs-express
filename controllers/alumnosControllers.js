@@ -97,3 +97,49 @@ export const deleteAlumno = (req,res) => {
     });
 
 }
+
+export const updateAlumno = (req,res) => {
+    //Leemos el archivo
+    const data = fs.readFileSync( filepath , "utf-8");
+    //Convertimos a js
+    const alumnos = JSON.parse(data);
+    //Obtenemos el id desde la URL
+    const idActualizar = parseInt(req.params.id);
+    //Variable para saber si existe:
+    let encontrado = false;
+
+    //Creamos nuevo array actualizado
+    const alumnosActualizados = alumnos.map( alumno => {
+        //si encontramos el alumno
+        if(alumno.id === idActualizar){
+            encontrado = true;
+            //devolvemos el alumno actualizado
+            return {
+                ...alumno, //spread, copia todo lo que tiene el objeto
+                ...req.body
+            };
+        }
+
+        //si no coincide, queda igual
+        return alumno;
+    });
+
+    //Verificamos si existía
+    if(!encontrado){
+        return res.status(404).json({
+            mensaje: "Alumno no encontrado"
+        });
+    }
+
+    //Guardamos el nuevo array
+    fs.writeFileSync(
+        filepath,
+        JSON.stringify(alumnosActualizados, null, 2)
+    );
+
+    //Respondemos al cliente
+    res.json({
+        mensaje: "Alumno actualizado correctamente"
+    });
+
+}
