@@ -19,6 +19,33 @@ export const getAlumnos = (req, res) => { //Creamos y exportamos una función, l
     //es el stringify, que hacía antes manualmente.
 }
 
+export const getUnAlumno = (req, res) => {
+    //leer el archivo alumnos.json
+    const data = fs.readFileSync(filepath , "utf-8");
+    //Convertirlo a array js
+    const alumnos = JSON.parse(data);
+    //Obtenemos el id a buscar desde la url:
+    const idBuscar = parseInt(req.params.id);
+    //Buscamos el alumno
+    const alumnoBuscado = alumnos.find(
+        alumno => alumno.id === idBuscar
+    );
+
+    //Verificamos si es que el alumno existe:
+    if(!alumnoBuscado){
+        return res.status(404).json({
+            mensaje: "alumno no encontrado"
+        });
+    }
+
+    //Si el alumno es encontrado:
+    res.status(200).json({
+        mensaje: "alumno encontrado",
+        alumno: alumnoBuscado
+    });
+
+}
+
 export const postAlumnos = (req,res) => {
     //leemos el archivo de alumnos.json
     const data = fs.readFileSync(filepath , "utf-8");
